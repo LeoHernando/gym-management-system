@@ -4,6 +4,8 @@ import com.leohernando.memberservice.dto.MemberRequestDTO;
 import com.leohernando.memberservice.dto.MemberResponseDTO;
 import com.leohernando.memberservice.dto.validators.CreateMemberValidationGroup;
 import com.leohernando.memberservice.service.MemberService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.groups.Default;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/members")
+@Tag(name = "Member", description = "API for managing Members")
 public class MemberController {
 
     private final MemberService memberService;
@@ -24,12 +27,14 @@ public class MemberController {
     }
 
     @GetMapping
+    @Operation(summary = "Get Members")
     public ResponseEntity<List<MemberResponseDTO>> getAllMembers() {
         List<MemberResponseDTO> members = memberService.getMembers();
         return ResponseEntity.ok(members);
     }
 
     @PostMapping
+    @Operation(summary = "Create a new Member")
     public ResponseEntity<MemberResponseDTO> createMember(@Validated({Default.class, CreateMemberValidationGroup.class})
                                                               @RequestBody MemberRequestDTO memberRequestDTO) {
         MemberResponseDTO memberResponseDTO = memberService.createMember(memberRequestDTO);
@@ -37,6 +42,7 @@ public class MemberController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Update a new Member")
     public ResponseEntity<MemberResponseDTO> updateMember(@PathVariable UUID id,
                                                           @Validated({Default.class}) @RequestBody MemberRequestDTO memberRequestDTO) {
         MemberResponseDTO memberResponseDTO = memberService.updateMember(id,
@@ -46,6 +52,7 @@ public class MemberController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete a Member")
     public ResponseEntity<Void> deleteMember(@PathVariable UUID id) {
         memberService.deleteMember(id);
         return ResponseEntity.noContent().build();
