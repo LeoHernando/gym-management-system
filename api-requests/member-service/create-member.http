@@ -4,9 +4,9 @@ Content-Type: application/json
 
 
 {
-  "firstName": "Wei Jie",
-  "lastName": "Tan",
-  "email": "weijietan@example.com",
+  "firstName": "Razin",
+  "lastName": "Prakesh",
+  "email": "razin@example.com",
   "phoneNumber": "96734627",
   "address": "123 Orchard Road",
   "dateOfBirth": "2000-05-26",

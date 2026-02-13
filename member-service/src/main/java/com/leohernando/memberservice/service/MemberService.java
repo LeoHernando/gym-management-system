@@ -5,6 +5,7 @@ import com.leohernando.memberservice.dto.MemberResponseDTO;
 import com.leohernando.memberservice.exception.EmailAlreadyExistsException;
 import com.leohernando.memberservice.exception.MemberNotFoundException;
 import com.leohernando.memberservice.grpc.BillingServiceGrpcClient;
+import com.leohernando.memberservice.kafka.KafkaProducer;
 import com.leohernando.memberservice.mapper.MemberMapper;
 import com.leohernando.memberservice.model.Member;
 import com.leohernando.memberservice.repository.MemberRepository;
@@ -19,10 +20,15 @@ import java.util.UUID;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final BillingServiceGrpcClient billingServiceGrpcClient;
+    private final KafkaProducer kafkaProducer;
 
-    public MemberService(MemberRepository memberRepository, BillingServiceGrpcClient billingServiceGrpcClient) {
+    public MemberService(MemberRepository memberRepository,
+                         BillingServiceGrpcClient billingServiceGrpcClient,
+                         KafkaProducer kafkaProducer
+    ) {
         this.memberRepository = memberRepository;
         this.billingServiceGrpcClient = billingServiceGrpcClient;
+        this.kafkaProducer = kafkaProducer;
     }
 
     public List<MemberResponseDTO> getMembers() {
@@ -39,6 +45,8 @@ public class MemberService {
 
         billingServiceGrpcClient.createBillingAccount(newMember.getId().toString(),
                 newMember.getFullName(), newMember.getEmail());
+
+        kafkaProducer.sendEvent(newMember);
 
         return MemberMapper.toDTO(newMember);
     }
