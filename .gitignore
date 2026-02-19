@@ -8,7 +8,7 @@ logs/
 
 # Eclipse & IntelliJ IDEA
 .idea/
-/*.iml
+*.iml
 /.classpath
 /.project
 /.settings/
