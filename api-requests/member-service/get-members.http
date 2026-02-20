@@ -1,4 +1,4 @@
 ### GET request to get all members
-GET http://localhost:4004/api/members
+GET http://lb-4d00f214.elb.localhost.localstack.cloud:4004/api/members
 Authorization: Bearer {{token}}
 ###

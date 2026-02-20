@@ -1,12 +1,12 @@
 ### Creates a new member entity
-POST http://localhost:4000/members
+POST http://lb-4d00f214.elb.localhost.localstack.cloud:4004/api/members
 Content-Type: application/json
-
+Authorization: Bearer {{token}}
 
 {
-  "firstName": "Kafka",
-  "lastName": "Test",
-  "email": "kafkatest@example.com",
+  "firstName": "Depp",
+  "lastName": "Prod",
+  "email": "Depprod@example.com",
   "phoneNumber": "96734627",
   "address": "123 Orchard Road",
   "dateOfBirth": "2000-05-26",
